@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - master
-  workflow_dispatch:  # ✅ Allows manual trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build-deploy:
@@ -27,14 +30,16 @@ jobs:
 
       - name: 🏗️ Build Angular App
         run: |
-          ng build --configuration=production --output-path=docs --base-href="/"
-          touch docs/.nojekyll  # ✅ Fixes 404 issue
+          ng build --configuration=production --output-path=docs --base-href="/cipher-guard/"
+          mv docs/browser/* docs/  # ✅ Move index.html and assets to root
+          rmdir docs/browser        # ✅ Remove empty browser folder
+          touch docs/.nojekyll      # ✅ Prevents GitHub Pages from ignoring files
 
       - name: 🚀 Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: docs
-          clean: true  # ✅ Ensures deleted files are removed
-          force: true  # ✅ Forces a commit even if no changes
-          single-commit: true  # ✅ Prevents history issues
+          clean: true
+          force: true
+          single-commit: true
