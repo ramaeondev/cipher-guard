@@ -31,15 +31,13 @@ jobs:
       - name: 🏗️ Build Angular App
         run: |
           ng build --configuration=production --output-path=docs --base-href="/cipher-guard/"
-          mv docs/browser/* docs/  # ✅ Move index.html and assets to root
-          rmdir docs/browser        # ✅ Remove empty browser folder
-          touch docs/.nojekyll      # ✅ Prevents GitHub Pages from ignoring files
+          touch dist/cipher-guard/.nojekyll  # ✅ Ensure GitHub Pages serves static files correctly
 
       - name: 🚀 Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: docs
+          folder: dist/cipher-guard
           clean: true
           force: true
           single-commit: true
