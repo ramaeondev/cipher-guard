@@ -30,7 +30,7 @@ jobs:
 
       - name: 🏗️ Build Angular App
         run: |
-          ng build --configuration=production --output-path=docs --base-href="/"
+          ng build --configuration=production --output-path=docs --base-href="/cipher-guard/"
           mv docs/browser/* docs/  # ✅ Move index.html and assets to root
           rmdir docs/browser        # ✅ Remove empty browser folder
           touch docs/.nojekyll      # ✅ Prevents GitHub Pages from ignoring files
