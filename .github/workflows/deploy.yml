@@ -3,11 +3,11 @@ name: Deploy Angular App to GitHub Pages
 on:
   push:
     branches:
-      - main  # Change this if your main branch has a different name
+      - master
 
 permissions:
-  contents: write  # Required for deployment
-
+  contents: write
+  
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
