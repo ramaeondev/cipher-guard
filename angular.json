@@ -52,7 +52,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "/cipher-guard/"
+              "baseHref": "/"
             },
             "development": {
               "optimization": false,
