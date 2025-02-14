@@ -57,7 +57,7 @@ export class AppComponent {
       this.decryptedText.set(decrypted); // Update writable signal
       this.showToast('🔓 Decryption successful!', 'OK');
     } catch (error) {
-      this.showToast('❌ Decryption failed! Check your secret key.', 'OK');
+      this.showToast('❌ Decryption failed! Check your secret key.', 'OKkk');
       this.decryptedText.set('');
     }
   }
