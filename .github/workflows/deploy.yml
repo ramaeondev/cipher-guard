@@ -33,5 +33,7 @@ jobs:
       - name: 🚀 Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages  # ✅ Deploys to GitHub Pages
+          branch: gh-pages
           folder: docs
+          clean: true  # ✅ Ensures deleted files are removed
+          force: true  # ✅ Forces a commit even if no changes
