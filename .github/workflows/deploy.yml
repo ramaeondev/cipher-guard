@@ -37,3 +37,4 @@ jobs:
           folder: docs
           clean: true  # ✅ Ensures deleted files are removed
           force: true  # ✅ Forces a commit even if no changes
+          single-commit: true  # ✅ Prevents history issues
