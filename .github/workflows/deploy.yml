@@ -20,6 +20,10 @@ jobs:
 
       - name: 📦 Install Dependencies
         run: npm ci
+      
+      - name: 🔧 Install Angular CLI
+        run: npm install -g @angular/cli  # ✅ Fix: Install Angular CLI
+
 
       - name: 🏗️ Build Angular App
         run: |
