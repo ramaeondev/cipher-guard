@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-
-permissions:
-  contents: write
   
 jobs:
   build-deploy:
@@ -25,10 +22,12 @@ jobs:
         run: npm ci
 
       - name: 🏗️ Build Angular App
-        run: npx ng build --configuration production --base-href="/cipher-guard/"
+        run: |
+          ng build --configuration=production --output-path=docs --base-href="/cipher-guard/"
+          touch docs/.nojekyll  # ✅ Fixes 404 issue
 
       - name: 🚀 Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages
-          folder: dist/cipher-guard
+          branch: gh-pages  # ✅ Make sure this matches GitHub Pages settings
+          folder: docs
