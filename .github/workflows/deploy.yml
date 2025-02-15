@@ -37,3 +37,4 @@ jobs:
           branch: gh-pages  # Deploy to the `gh-pages` branch
           folder: dist/cipher-guard/browser # Make sure it matches the `outputPath`
           CLEAN: true
+          force: true  # Force commit even if no detected changes
