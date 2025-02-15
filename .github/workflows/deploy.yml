@@ -36,3 +36,4 @@ jobs:
         with:
           branch: gh-pages  # Deploy to the `gh-pages` branch
           folder: dist/cipher-guard  # Make sure it matches the `outputPath`
+          CLEAN: true
