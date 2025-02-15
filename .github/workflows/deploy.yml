@@ -29,15 +29,8 @@ jobs:
         run: npm install -g @angular/cli
 
       - name: 🏗️ Build Angular App
-        run: |
-          ng build --configuration=production --output-path=docs --base-href="/cipher-guard/"
-          touch dist/cipher-guard/.nojekyll  # ✅ Ensure GitHub Pages serves static files correctly
+        run: npm run build
 
-      - name: 🚀 Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: dist/cipher-guard
-          clean: true
-          force: true
-          single-commit: true
+      - name: Deploy to gh pages
+        run: |
+          npx angular-cli-ghpages --dir=dist/cipher-guard
