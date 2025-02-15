@@ -4,9 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:prod": "ng build --configuration=production --base-href='/cipher-guard/'",
-    "watch": "ng build --watch --configuration development",
+    "build": "ng build --output-path=dist/cipher-guard",
+    "build:prod": "ng build --configuration=production --output-path=dist/cipher-guard",
+    "deploy": "ng deploy --base-href=/cipher-guard/",
+    "watch": "ng serve --configuration=development",
     "test": "ng test"
   },
   "private": true,
@@ -32,6 +33,7 @@
     "@angular/compiler-cli": "^19.0.0",
     "@types/crypto-js": "^4.2.2",
     "@types/jasmine": "~5.1.0",
+    "angular-cli-ghpages": "^2.0.3",
     "jasmine-core": "~5.4.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
