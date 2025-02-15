@@ -30,9 +30,13 @@ jobs:
 
       - name: Build Angular app
         run: npm run build:prod
+      
+      - name: Force clean deployment folder
+        run: rm -rf github-pages-deploy-action-temp-deployment-folder
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages  # Deploy to the `gh-pages` branch
           folder: dist/cipher-guard  # Make sure it matches the `outputPath`
+ß
