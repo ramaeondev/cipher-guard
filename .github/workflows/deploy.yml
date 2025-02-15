@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read  # Required for actions/checkout
+  contents: write  # Required for actions/checkout
   pages: write    # Allows writing to GitHub Pages
   id-token: write # Enables authentication for deployment
 
@@ -31,9 +31,6 @@ jobs:
       - name: Build Angular app
         run: npm run build:prod
       
-      - name: Force clean deployment folder
-        run: rm -rf github-pages-deploy-action-temp-deployment-folder
-
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
