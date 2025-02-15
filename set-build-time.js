@@ -1,10 +1,13 @@
 const fs = require('fs');
-const filePath = 'dist/browser/assets/build-info.json';
+const path = 'dist/browser/assets/build-info.json';
+const dir = 'dist/browser/assets';
 
-const buildInfo = {
-  version: '10.0.0',
-  lastBuild: new Date().toISOString(),
-};
+// Ensure the directory exists
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+}
 
-fs.writeFileSync(filePath, JSON.stringify(buildInfo, null, 2));
-console.log('✅ Build info generated:', buildInfo);
+// Write build time info
+fs.writeFileSync(path, JSON.stringify({ buildTime: new Date().toISOString() }, null, 2));
+
+console.log('Build info saved to', path);
