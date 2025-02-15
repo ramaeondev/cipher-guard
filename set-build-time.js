@@ -1,13 +1,19 @@
 const fs = require('fs');
-const path = 'dist/browser/assets/build-info.json';
-const dir = 'dist/browser/assets';
+const path = 'dist/assets/build-info.json'; // Corrected path
+const dir = 'dist/assets';
 
-// Ensure the directory exists
+// Ensure the directory exists before writing
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
 }
 
-// Write build time info
-fs.writeFileSync(path, JSON.stringify({ buildTime: new Date().toISOString() }, null, 2));
+// Get the correct ISO-formatted build timestamp
+const buildInfo = {
+    buildTime: new Date().toISOString(), // ISO 8601 format
+    version: process.env.GITHUB_REF_NAME || "local-dev" // Use GitHub branch/tag name if available
+};
 
-console.log('Build info saved to', path);
+// Write the build info to JSON
+fs.writeFileSync(path, JSON.stringify(buildInfo, null, 2));
+
+console.log('✅ Build info saved:', buildInfo);

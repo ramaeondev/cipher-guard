@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": ["crypto-js"],
             "baseHref": "/cipher-guard/",
             "outputPath": "dist/cipher-guard",
             "index": "src/index.html",
@@ -31,6 +32,11 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
+              },
+              {
+                "glob": "build-info.json",
+                "input": "dist/assets",
+                "output": "assets"
               }
             ],
             "styles": [
@@ -43,8 +49,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "1.5MB"
                 },
                 {
                   "type": "anyComponentStyle",
