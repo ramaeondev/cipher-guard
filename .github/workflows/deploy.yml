@@ -35,5 +35,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           BRANCH: gh-pages
-          FOLDER: dist/browser
+          FOLDER: dist/cipher-guard
           CLEAN: true
