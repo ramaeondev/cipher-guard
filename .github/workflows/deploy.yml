@@ -29,8 +29,11 @@ jobs:
         run: npm install -g @angular/cli
 
       - name: 🏗️ Build Angular App
-        run: npm run build
+        run: npm run build:prod
 
       - name: Deploy to gh pages
-        run: |
-          npx angular-cli-ghpages --dir=dist/cipher-guard
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          BRANCH: gh-pages
+          FOLDER: dist/browser
+          CLEAN: true
