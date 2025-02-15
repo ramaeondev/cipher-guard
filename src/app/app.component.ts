@@ -7,6 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { BuildInfoService } from '../services/build-info.service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,8 @@ export class AppComponent {
   secretKey: WritableSignal<string> = signal('');
   hashResult: WritableSignal<string> = signal('');
   selectedMethod: WritableSignal<string> = signal('AES');
+  version: WritableSignal<string> = signal('');
+  lastBuild: WritableSignal<string> = signal('');
 
   encryptionMethods = [
     { name: 'AES', label: 'AES Encryption/Decryption' },
@@ -37,7 +40,9 @@ export class AppComponent {
     { name: 'HMAC-SHA256', label: 'HMAC-SHA256 Hashing' }
   ];
 
-  constructor(private snackBar: MatSnackBar, private clipboard: Clipboard) {}
+  constructor(private snackBar: MatSnackBar, private clipboard: Clipboard, public buildInfoService: BuildInfoService) {
+    this.buildInfoService.loadBuildInfo();
+  }
 
   showToast(message: string, action: string = 'Close', duration: number = 3000) {
     this.snackBar.open(message, action, {
@@ -166,4 +171,5 @@ export class AppComponent {
     this.hashResult.set(hash);
     this.showToast('🔑 Hash generated successfully!', 'OK');
   }
+
 }

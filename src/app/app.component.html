@@ -1,6 +1,7 @@
 <mat-toolbar class="app-header">
   <img src="assets/logo.png" alt="CipherGuard Logo" class="logo" />
   <span class="app-title">CipherGuard</span>
+  <p>Last build: {{ buildInfoService.lastBuild() }} - Version {{ buildInfoService.version() }} is here! Read about the new features <a href="#">here</a></p>
 </mat-toolbar>
 <mat-drawer-container class="container">
   <!-- Sidebar Menu -->
