@@ -41,7 +41,8 @@ export class AppComponent {
   ];
 
   constructor(private snackBar: MatSnackBar, private clipboard: Clipboard, public buildInfoService: BuildInfoService) {
-    this.buildInfoService.loadBuildInfo();
+    this.version.set(buildInfoService.version());
+    this.lastBuild.set(buildInfoService.lastBuild());
   }
 
   showToast(message: string, action: string = 'Close', duration: number = 3000) {

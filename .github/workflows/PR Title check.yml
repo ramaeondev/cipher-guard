@@ -12,7 +12,7 @@ jobs:
         env:
           TITLE: ${{ github.event.pull_request.title }}
         run: |
-          if [[ "$TITLE" =~ ^RAMA#[[:digit:]]+[[:space:]]-[[:space:]][A-Z] ]]; then
+          if [[ "$TITLE" =~ ^CG#[[:digit:]]+[[:space:]]-[[:space:]][A-Z] ]]; then
             echo "PR title check passed!"
             exit 0
           else
