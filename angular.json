@@ -45,15 +45,6 @@
             "scripts": []
           },
           "configurations": {
-            "github": {
-              "baseHref": "/cipher-guard/",
-              "outputPath": "dist/cipher-guard"
-            },
-            "vercel": {
-              "baseHref": "/",
-              "outputPath": "dist/cipher-guard",
-              "deployUrl": "/"
-            },
             "production": {
               "budgets": [
                 {
