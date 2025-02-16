@@ -56,9 +56,6 @@ jobs:
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 
-      - name: Modify baseHref for Vercel
-        run: "sed -i 's|\"baseHref\": \"/cipher-guard/\"|\"baseHref\": \"/\"|' angular.json"
-
       - name: Build Angular app for Vercel
         run: npm run build:vercel
 
