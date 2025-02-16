@@ -55,7 +55,7 @@ jobs:
         run: npm ci
 
       - name: Modify baseHref for Vercel
-        run: sed -i 's|"baseHref": "/cipher-guard/"|"baseHref": "/"|' angular.json
+        run: "sed -i 's|\"baseHref\": \"/cipher-guard/\"|\"baseHref\": \"/\"|' angular.json"
 
       - name: Build Angular app for Vercel
         run: npm run build:prod
