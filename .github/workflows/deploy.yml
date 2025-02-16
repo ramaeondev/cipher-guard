@@ -1,4 +1,4 @@
-name: Deploy Angular to GitHub Pages
+name: Deploy Angular App
 
 on:
   push:
@@ -51,4 +51,6 @@ jobs:
         run: npm install -g vercel
 
       - name: Deploy to Vercel
-        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          echo "Deploying to Vercel..."
+          vercel --prod --yes --token="${{ secrets.VERCEL_TOKEN }}"
