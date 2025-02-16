@@ -51,7 +51,7 @@
             },
             "vercel": {
               "baseHref": "/",
-              "outputPath": "dist/vercel"
+              "outputPath": "dist/vercel/browser"
             },
             "production": {
               "budgets": [
