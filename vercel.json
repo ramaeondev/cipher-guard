@@ -1,0 +1,4 @@
+{
+  "routes": [{ "src": "/(.*)", "dest": "/index.html" }],
+  "builds": [{ "src": "dist/cipher-guard/index.html", "use": "@vercel/static" }]
+}
