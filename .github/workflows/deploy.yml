@@ -53,4 +53,4 @@ jobs:
       - name: Deploy to Vercel
         run: |
           echo "Deploying to Vercel..."
-          vercel --prod --yes --token="${{ secrets.VERCEL_TOKEN }}"
+          vercel --prod --yes --token="${{ secrets.VERCEL_TOKEN }}" --cwd dist/cipher-guard
