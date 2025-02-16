@@ -51,7 +51,7 @@
             },
             "vercel": {
               "baseHref": "/",
-              "outputPath": "dist/cipher-guard"
+              "outputPath": "dist/vercel"
             },
             "production": {
               "budgets": [
