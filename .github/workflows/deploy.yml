@@ -38,3 +38,17 @@ jobs:
           folder: dist/cipher-guard/browser # Make sure it matches the `outputPath`
           CLEAN: true
           force: true  # Force commit even if no detected changes
+
+  deploy-to-vercel:
+    needs: build  # Only run after build job completes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
