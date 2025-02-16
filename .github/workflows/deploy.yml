@@ -1,4 +1,4 @@
-name: Deploy Angular App
+name: Deploy Angular to GitHub Pages & Vercel
 
 on:
   push:
@@ -7,14 +7,13 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  # Required for actions/checkout
-  pages: write    # Allows writing to GitHub Pages
-  id-token: write # Enables authentication for deployment
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -22,35 +21,47 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20  # Use Node.js 18 (recommended for Angular 19)
-          cache: 'npm'       # Cache dependencies to speed up builds
+          node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Angular app
+      - name: Build Angular app for GitHub Pages
         run: npm run build:prod
-      
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages  # Deploy to the `gh-pages` branch
           folder: dist/cipher-guard/browser # Make sure it matches the `outputPath`
           CLEAN: true
-          force: true  # Force commit even if no detected changes
+          force: true
 
   deploy-to-vercel:
-    needs: build  # Only run after build job completes
+    needs: build
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Modify `baseHref` for Vercel
+        run: sed -i 's|"baseHref": "/cipher-guard/"|"baseHref": "/"|' angular.json
+
+      - name: Build Angular app for Vercel
+        run: npm run build:prod
 
       - name: Install Vercel CLI
         run: npm install -g vercel
 
       - name: Deploy to Vercel
-        run: |
-          echo "Deploying to Vercel..."
-          vercel --prod --yes --token="${{ secrets.VERCEL_TOKEN }}" --cwd dist/cipher-guard
+        run: vercel --prod --yes --token="${{ secrets.VERCEL_TOKEN }}" --cwd dist/cipher-guard
