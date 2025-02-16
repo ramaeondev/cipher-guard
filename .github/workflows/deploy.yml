@@ -1,39 +1,40 @@
-name: Deploy Angular App to GitHub Pages
+name: Deploy Angular to GitHub Pages
 
 on:
   push:
     branches:
-      - master
+      - '*'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: write  # Required for actions/checkout
+  pages: write    # Allows writing to GitHub Pages
+  id-token: write # Enables authentication for deployment
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🚀 Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 🏗️ Setup Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20  # Use Node.js 18 (recommended for Angular 19)
+          cache: 'npm'       # Cache dependencies to speed up builds
 
-      - name: 📦 Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: 🔧 Install Angular CLI
-        run: npm install -g @angular/cli
-
-      - name: 🏗️ Build Angular App
+      - name: Build Angular app
         run: npm run build:prod
-
-      - name: Deploy to gh pages
+      
+      - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          BRANCH: gh-pages
-          FOLDER: dist/cipher-guard
+          branch: gh-pages  # Deploy to the `gh-pages` branch
+          folder: dist/cipher-guard/browser # Make sure it matches the `outputPath`
           CLEAN: true
+          force: true  # Force commit even if no detected changes

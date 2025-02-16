@@ -1,57 +1,61 @@
 <mat-toolbar class="app-header">
   <img src="assets/logo.png" alt="CipherGuard Logo" class="logo" />
   <span class="app-title">CipherGuard</span>
+  <p>Last build: {{ buildInfoService.lastBuild() }} - Version {{ buildInfoService.version() }} is here! Read about the new features <a href="#">here</a></p>
 </mat-toolbar>
 <mat-drawer-container class="container">
   <!-- Sidebar Menu -->
   <mat-drawer mode="side" opened>
-    <h3>Encryption Types</h3>
+    <h3>Encryption & Hashing Methods</h3>
     <mat-nav-list>
-      <mat-list-item
-        [class.active]="selectedMethod() === 'AES'"
-        (click)="selectMethod('AES')"
-      >
-        AES Encryption/Decryption
+      <mat-list-item *ngFor="let method of encryptionMethods" (click)="selectMethod(method.name)" [class.active]="selectedMethod() === method.name">
+        {{ method.label }}
       </mat-list-item>
-      <mat-list-item disabled>RSA Encryption (Coming Soon)</mat-list-item>
-      <mat-list-item disabled>SHA Hashing (Coming Soon)</mat-list-item>
-      <mat-list-item disabled>Base64 Encoding (Coming Soon)</mat-list-item>
     </mat-nav-list>
   </mat-drawer>
 
   <!-- Main Content -->
   <mat-drawer-content>
-    @if (selectedMethod() === 'AES'){
-        <h1>🔒 AES Encryption & Decryption</h1>
-  
-        <label>Enter Text to Encrypt:</label>
-        <textarea
-          [value]="plainText()"
-          (input)="readInput($event, 'textArea')"
-          placeholder="Type your text here..."
-        ></textarea>
-  
-        <label>Enter Your Secret Key:</label>
-        <input
-          type="password"
-          [value]="secretKey()"
-          (input)="readInput($event, 'password')"
-          placeholder="Enter secret key"
-        />
-  
-        <button mat-raised-button color="primary" (click)="encrypt()">
-          Encrypt
-        </button>
-        <button mat-raised-button color="accent" (click)="decrypt()">
-          Decrypt
-        </button>
-  
-        <h3>Encrypted Text:</h3>
-        <p>{{ encryptedText() }}</p>
-  
-        <h3>Decrypted Text:</h3>
-        <p>{{ decryptedText() }}</p>
+    <h1>{{ selectedMethod() }} Utility</h1>
+    <label>Enter Text:</label>
+    <textarea [value]="plainText()" (input)="readInput($event, 'textArea')" placeholder="Type your text here..."></textarea>
+    
+    @if (selectedMethod() !== 'MD5' && selectedMethod() !== 'SHA-1' && selectedMethod() !== 'SHA-256' && selectedMethod() !== 'SHA-512') {
+      <label>Enter Your Secret Key:</label>
+      <input type="password" [value]="secretKey()" (input)="readInput($event, 'password')" placeholder="Enter secret key" />
     }
-   
+    
+    @if (selectedMethod() === 'AES' || selectedMethod() === 'DES' || selectedMethod() === '3DES' || selectedMethod() === 'Rabbit' || selectedMethod() === 'RC4') {
+      <button mat-raised-button color="primary" (click)="encrypt()">Encrypt</button>
+      <button mat-raised-button color="accent" (click)="decrypt()">Decrypt</button>
+    }
+    
+    @if (selectedMethod() === 'MD5' || selectedMethod() === 'SHA-1' || selectedMethod() === 'SHA-256' || selectedMethod() === 'SHA-512' || selectedMethod() === 'HMAC-SHA256') {
+      <button mat-raised-button color="primary" (click)="generateHash()">Generate Hash</button>
+    }
+
+    @if (encryptedText()) {
+      <h3>Encrypted Text:</h3>
+      <p>{{ encryptedText() }}</p>
+      <button mat-icon-button (click)="copyToClipboard(encryptedText())">
+        📋 Copy
+      </button>
+    }
+    
+    @if (decryptedText()) {
+      <h3>Decrypted Text:</h3>
+      <p>{{ decryptedText() }}</p>
+      <button mat-icon-button (click)="copyToClipboard(decryptedText())">
+        📋 Copy
+      </button>
+    }
+    
+    @if (hashResult()) {
+      <h3>Generated Hash:</h3>
+      <p>{{ hashResult() }}</p>
+      <button mat-icon-button (click)="copyToClipboard(hashResult())">
+        📋 Copy
+      </button>
+    }
   </mat-drawer-content>
 </mat-drawer-container>

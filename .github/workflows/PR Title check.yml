@@ -1,0 +1,25 @@
+name: PR Title Check
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR Title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if [[ "$TITLE" =~ ^RAMA#[[:digit:]]+[[:space:]]-[[:space:]][A-Z] ]]; then
+            echo "PR title check passed!"
+            exit 0
+          else
+            echo "PR title check failed!"
+            echo "PR title should be in the following format:"
+            echo "RAMA#<WORK_ITEM_NUMBER> - <COMMIT_MESSAGE>"
+            echo "Example:"
+            echo "RAMA#123456 - Example commit"
+            exit 1
+          fi
