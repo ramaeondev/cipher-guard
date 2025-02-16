@@ -28,7 +28,7 @@ jobs:
         run: npm ci
 
       - name: Build Angular app for GitHub Pages
-        run: npm run build:prod
+        run: npm run build:github
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
@@ -60,7 +60,7 @@ jobs:
         run: "sed -i 's|\"baseHref\": \"/cipher-guard/\"|\"baseHref\": \"/\"|' angular.json"
 
       - name: Build Angular app for Vercel
-        run: npm run build:prod
+        run: npm run build:vercel
 
       - name: Install Vercel CLI
         run: npm install -g vercel

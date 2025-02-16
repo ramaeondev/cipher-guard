@@ -6,6 +6,8 @@
     "start": "ng serve",
     "build": "ng build --output-path=dist/cipher-guard",
     "build:prod": "ng build --configuration=production --output-path=dist/cipher-guard && node set-build-time.js",
+    "build:github": "ng build --configuration=github",
+    "build:vercel": "ng build --configuration=vercel",
     "deploy": "ng deploy --base-href=/cipher-guard/",
     "watch": "ng serve --configuration=development",
     "test": "ng test"
