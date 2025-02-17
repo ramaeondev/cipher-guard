@@ -1,9 +1,9 @@
 {
   "name": "cipher-guard",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",  
+    "start": "ng serve",
     "prestart": "node update-env.js",
     "custom-start": "node update-env.js && ng s",
     "prebuild": "node update-env.js",
