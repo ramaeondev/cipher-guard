@@ -3,7 +3,7 @@ name: Deploy Angular to GitHub Pages & Vercel
 on:
   push:
     branches:
-      - '*'
+      - 'master'
   workflow_dispatch:
 
 permissions:
