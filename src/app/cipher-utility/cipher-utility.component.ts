@@ -8,12 +8,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { BuildInfoService } from '../../services/build-info.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-cipher-utility',
-  standalone: true,
-  imports: [CommonModule, FormsModule, MatSnackBarModule, MatListModule, MatSidenavModule, MatToolbarModule,RouterModule],
+  imports: [CommonModule, FormsModule, MatSnackBarModule, MatListModule, MatSidenavModule, MatToolbarModule, RouterModule, MatFormFieldModule, MatCardModule, MatButtonModule, MatInputModule],
   templateUrl: './cipher-utility.component.html',
   styleUrl: './cipher-utility.component.scss'
 })

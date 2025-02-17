@@ -1,0 +1,117 @@
+.container {
+  height: calc(100vh - 64px);
+  background: #f8f9fa;
+}
+
+mat-drawer {
+  width: 260px;
+  background: white;
+  border-right: 1px solid #dee2e6;
+  padding: 1rem;
+}
+
+mat-drawer h3 {
+  color: #2c3e50;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
+mat-nav-list {
+  padding: 0;
+}
+
+mat-list-item {
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  margin-bottom: 0.5rem;
+}
+
+mat-list-item:hover {
+  background: #f8f9fa !important;
+}
+
+mat-list-item.active {
+  background: #3498db !important;
+  color: white !important;
+}
+
+mat-drawer-content {
+  padding: 2rem;
+  background: white;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+button[mat-raised-button] {
+  margin-right: 1rem;
+  padding: 0.5rem 1.5rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Encrypt Button */
+button[mat-raised-button]:first-of-type {
+  background: #27ae60;
+  color: white;
+}
+
+/* Decrypt Button */
+button[mat-raised-button]:nth-of-type(2) {
+  background: #2980b9;
+  color: white;
+}
+
+/* Generate Hash Button */
+button[mat-raised-button]:last-of-type {
+  background: #8e44ad;
+  color: white;
+}
+
+.result {
+  margin-top: 2rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.result h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.result p {
+  font-family: 'Courier New', monospace;
+  word-break: break-all;
+  background: white;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+button[mat-icon-button] {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  color: #7f8c8d;
+}
+
+@media (max-width: 768px) {
+  mat-drawer {
+    width: 200px;
+  }
+  
+  mat-drawer-content {
+    padding: 1rem;
+  }
+  
+  button[mat-raised-button] {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+}
