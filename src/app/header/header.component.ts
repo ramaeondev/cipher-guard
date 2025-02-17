@@ -3,7 +3,7 @@ import { BuildInfoService } from '../../services/build-info.service';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { TimeAgoPipe } from "../directives/time-ago.pipe";
+import { TimeAgoPipe } from "../../directives/time-ago.pipe";
 
 @Component({
   selector: 'app-header',
@@ -15,6 +15,7 @@ import { TimeAgoPipe } from "../directives/time-ago.pipe";
 export class HeaderComponent {
   version: WritableSignal<string> = signal('');
   lastBuild: WritableSignal<string> = signal('');
+  changeLog= 'https://github.com/ramaeondev/cipher-guard/blob/master/CHANGELOG.md';
 
   constructor(public buildInfoService: BuildInfoService) {
     this.version.set(buildInfoService.version());
