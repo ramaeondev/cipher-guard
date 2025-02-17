@@ -1,4 +1,4 @@
-name: Deploy Angular to GitHub Pages & Vercel
+name: Deploy Angular to GitHub Pages
 
 on:
   push:
@@ -12,11 +12,13 @@ permissions:
   id-token: write
 
 jobs:
-  deploy-to-gh_pages:
+  versioning-and-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -25,19 +27,54 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
-        
+        run: |
+          npm ci
+          npm install -g conventional-changelog-cli
+          npm install -g standard-version
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Version and Changelog
+        run: |
+          # Get the latest version
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          
+          # Analyze commits and bump version
+          standard-version --skip.tag
+          
+          # Get the new version
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          
+          # Generate detailed changelog
+          conventional-changelog -p angular -i CHANGELOG.md -s
+          
+          # Commit changes if version changed
+          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
+            git add CHANGELOG.md package.json package-lock.json
+            git commit -m "chore(release): version $NEW_VERSION [skip ci]"
+            git tag -a "v$NEW_VERSION" -m "Version $NEW_VERSION"
+          fi
+
       - name: Update deployment timestamp
         run: |
-          echo "export const environment = { production: true, version: '$(node -p "require('./package.json').version")', lastBuild: '$(date -u +"%Y-%m-%dT%H:%M:%SZ")' };" > src/environments/environment.prod.ts
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "export const environment = { production: true, version: '$NEW_VERSION', lastBuild: '$(date -u +"%Y-%m-%dT%H:%M:%SZ")' };" > src/environments/environment.prod.ts
           
       - name: Build Angular app for GitHub Pages
         run: npm run build:github
 
+      - name: Push changes
+        run: |
+          git push
+          git push --tags
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: gh-pages  # Deploy to the `gh-pages` branch
-          folder: dist/cipher-guard/browser # Make sure it matches the `outputPath`
+          branch: gh-pages
+          folder: dist/cipher-guard/browser
           CLEAN: true
           force: true
