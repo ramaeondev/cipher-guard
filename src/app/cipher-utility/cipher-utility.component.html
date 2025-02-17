@@ -1,0 +1,64 @@
+<mat-drawer-container class="container">
+  <mat-drawer mode="side" opened>
+    <h3>Encryption & Hashing Methods</h3>
+    <mat-nav-list>
+      <mat-list-item *ngFor="let method of encryptionMethods" (click)="selectMethod(method.name)" [class.active]="selectedMethod() === method.name">
+        {{ method.label }}
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <h1>{{ selectedMethod() }} Utility</h1>
+    <mat-form-field>
+      <mat-label>Enter Text</mat-label>
+      <textarea matInput [value]="plainText()" (input)="readInput($event, 'textArea')" placeholder="Type your text here..." autocomplete="new-password" ></textarea>
+    </mat-form-field>
+
+    @if (selectedMethod() !== 'MD5' && selectedMethod() !== 'SHA-1' && selectedMethod() !== 'SHA-256' && selectedMethod() !== 'SHA-512') {
+      <mat-form-field>
+        <mat-label>Enter Your Secret Key</mat-label>
+        <input matInput type="password" [value]="secretKey()" (input)="readInput($event, 'password')" placeholder="Enter secret key" autocomplete="new-password" />
+      </mat-form-field>
+    }
+
+    @if (selectedMethod() === 'AES' || selectedMethod() === 'DES' || selectedMethod() === '3DES' || selectedMethod() === 'Rabbit' || selectedMethod() === 'RC4') {
+      <button mat-raised-button (click)="encrypt()">Encrypt</button>
+      <button mat-raised-button (click)="decrypt()">Decrypt</button>
+    }
+
+    @if (selectedMethod() === 'MD5' || selectedMethod() === 'SHA-1' || selectedMethod() === 'SHA-256' || selectedMethod() === 'SHA-512' || selectedMethod() === 'HMAC-SHA256') {
+      <button mat-raised-button (click)="generateHash()">Generate Hash</button>
+    }
+
+    @if (encryptedText()) {
+      <mat-card class="result">
+        <h3>Encrypted Text:</h3>
+        <p>{{ encryptedText() }}</p>
+        <button mat-icon-button (click)="copyToClipboard(encryptedText())">
+          📋
+        </button>
+      </mat-card>
+    }
+
+    @if (decryptedText()) {
+      <mat-card class="result">
+        <h3>Decrypted Text:</h3>
+        <p>{{ decryptedText() }}</p>
+        <button mat-icon-button (click)="copyToClipboard(decryptedText())">
+          📋
+        </button>
+      </mat-card>
+    }
+
+    @if (hashResult()) {
+      <mat-card class="result">
+        <h3>Generated Hash:</h3>
+        <p>{{ hashResult() }}</p>
+        <button mat-icon-button (click)="copyToClipboard(hashResult())">
+          📋
+        </button>
+      </mat-card>
+    }
+  </mat-drawer-content>
+</mat-drawer-container>
