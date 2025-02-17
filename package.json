@@ -1,9 +1,12 @@
 {
   "name": "cipher-guard",
-  "version": "0.0.0",
+  "version": "2.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve",  
+    "prestart": "node update-env.js",
+    "custom-start": "node update-env.js && ng s",
+    "prebuild": "node update-env.js",
     "build": "ng build --output-path=dist/cipher-guard",
     "build:prod": "ng build --configuration=production --output-path=dist/cipher-guard && node set-build-time.js",
     "build:github": "ng build --configuration=production",

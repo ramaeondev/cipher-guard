@@ -29,7 +29,7 @@ jobs:
         
       - name: Update deployment timestamp
         run: |
-          echo "export const environment = { production: true, version: '2.0.0', lastBuild: '$(date -u +"%Y-%m-%dT%H:%M:%SZ")' };" > src/environments/environment.prod.ts
+          echo "export const environment = { production: true, version: '$(node -p "require('./package.json').version")', lastBuild: '$(date -u +"%Y-%m-%dT%H:%M:%SZ")' };" > src/environments/environment.prod.ts
           
       - name: Build Angular app for GitHub Pages
         run: npm run build:github
