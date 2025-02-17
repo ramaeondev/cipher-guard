@@ -13,7 +13,9 @@
     "build:vercel": "ng build --configuration=vercel",
     "deploy": "ng deploy --base-href=/cipher-guard/",
     "watch": "ng serve --configuration=development",
-    "test": "ng test"
+    "test": "ng test",
+    "release": "standard-version",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "private": true,
   "dependencies": {
