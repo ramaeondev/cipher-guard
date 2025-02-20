@@ -33,25 +33,18 @@ jobs:
           npm install -g standard-version
 
       - name: Configure Git
+        if: github.ref == 'refs/heads/master'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Version and Changelog
+        if: github.ref == 'refs/heads/master'
         run: |
-          # Get the latest version
           CURRENT_VERSION=$(node -p "require('./package.json').version")
-          
-          # Analyze commits and bump version
           standard-version --skip.tag
-          
-          # Get the new version
           NEW_VERSION=$(node -p "require('./package.json').version")
-          
-          # Generate detailed changelog
           conventional-changelog -p angular -i CHANGELOG.md -s
-          
-          # Commit changes if version changed
           if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
             git add CHANGELOG.md package.json package-lock.json
             git commit -m "chore(release): version $NEW_VERSION [skip ci]"
@@ -63,8 +56,25 @@ jobs:
           NEW_VERSION=$(node -p "require('./package.json').version")
           echo "export const environment = { production: true, version: '$NEW_VERSION', lastBuild: '$(date -u +"%Y-%m-%dT%H:%M:%SZ")' };" > src/environments/environment.prod.ts
           
-      - name: Build Angular app
-        run: npm run build:github
+      # Build for GitHub Pages
+      - name: Build Angular app for GitHub Pages
+        run: npm run build:github  # assuming this sets base-href to /cipher-guard/
+
+      - name: Upload GitHub Pages artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-github
+          path: dist/cipher-guard/browser
+
+      # Build for S3
+      - name: Build Angular app for S3
+        run: ng build --base-href "/"
+
+      - name: Upload S3 artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-s3
+          path: dist/cipher-guard/browser
 
       - name: Push changes
         if: github.ref == 'refs/heads/master'
@@ -72,24 +82,18 @@ jobs:
           git push
           git push --tags
 
-      # Upload build artifacts to be used by both deployment jobs
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/cipher-guard/browser
-
   deploy-to-github-pages:
     needs: versioning-and-build
+    # if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download build artifacts
+      - name: Download GitHub Pages artifacts
         uses: actions/download-artifact@v4
         with:
-          name: dist
+          name: dist-github
           path: dist/cipher-guard/browser
 
       - name: Deploy to GitHub Pages
@@ -102,12 +106,13 @@ jobs:
 
   deploy-to-s3:
     needs: versioning-and-build
+    # if: github.ref != 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - name: Download build artifacts
+      - name: Download S3 artifacts
         uses: actions/download-artifact@v4
         with:
-          name: dist
+          name: dist-s3
           path: dist/cipher-guard/browser
 
       - name: Configure AWS Credentials
@@ -120,3 +125,8 @@ jobs:
       - name: Deploy to S3
         run: |
           aws s3 sync dist/cipher-guard/browser s3://${{ secrets.S3_BUCKET }} --delete
+
+      # - name: Invalidate CloudFront Cache
+      #   if: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID != '' }}
+      #   run: |
+      #     aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
