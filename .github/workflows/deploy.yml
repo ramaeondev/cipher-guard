@@ -73,7 +73,7 @@ jobs:
 
       # Upload build artifacts to be used by both deployment jobs
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist/cipher-guard/browser
