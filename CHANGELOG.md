@@ -1,3 +1,13 @@
+# [2.1.0](https://github.com/ramaeondev/cipher-guard/compare/v2.0.2...v2.1.0) (2025-02-20)
+
+
+### Features
+
+* **pipeline:** added S3 deployment ([25a5bf7](https://github.com/ramaeondev/cipher-guard/commit/25a5bf7caff34f2368982f79237d25cd5d68aeaf))
+* **pipeline:** added S3 deployment ([7f7b8fa](https://github.com/ramaeondev/cipher-guard/commit/7f7b8fa44abbdaa78ab632b089aeee67f5c8dfec))
+
+
+
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
