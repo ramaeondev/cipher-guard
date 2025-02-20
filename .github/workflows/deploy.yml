@@ -31,6 +31,7 @@ jobs:
           npm ci
           npm install -g conventional-changelog-cli
           npm install -g standard-version
+          npm install -g @angular/cli@latest
 
       - name: Configure Git
         if: github.ref == 'refs/heads/master'
